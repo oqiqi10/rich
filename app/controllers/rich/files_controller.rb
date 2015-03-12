@@ -48,7 +48,8 @@ module Rich
 
     def create
 
-      @file = RichFile.new(:simplified_type => params[:simplified_type])
+      @file = RichFile.new
+      @file.simplified_type = params[:simplified_type]
 
       if(params[:scoped] == 'true')
         @file.owner_type = params[:scope_type]
