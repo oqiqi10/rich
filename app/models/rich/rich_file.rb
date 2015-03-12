@@ -12,7 +12,8 @@ module Rich
 
     has_attached_file :rich_file,
                       :styles => Proc.new {|a| a.instance.set_styles },
-                      :convert_options => Proc.new { |a| Rich.convert_options[a] }
+                      :convert_options => Proc.new { |a| Rich.convert_options[a] },
+                      :restricted_characters => /[&$+,\/:;=?@<>\[\]\{\}\|\\\^~#]/
     if self.respond_to?(:do_not_validate_attachment_file_type)
       do_not_validate_attachment_file_type :rich_file
     end
@@ -57,16 +58,8 @@ module Rich
     end
 
     def clean_file_name
-      extension = File.extname(rich_file_file_name).gsub(/^\.+/, '')
-      filename = rich_file_file_name.gsub(/\.#{extension}$/, '')
-
-      filename = CGI::unescape(filename)
-      filename = CGI::unescape(filename)
-
-      extension = extension.downcase
-      filename = filename.downcase.gsub(/[^a-z0-9]+/i, '-')
-
-      self.rich_file.instance_write(:file_name, "#{filename}.#{extension}")
+      filename = CGI::unescape(rich_file_file_name)
+      self.rich_file.instance_write(:file_name, filename)
     end
 
     def check_content_type
