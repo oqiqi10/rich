@@ -9,18 +9,10 @@ module Rich
     def index
       @type = params[:type]
 
-      if(params[:scoped] == 'true')
-        if(@type == "image")
-          @items = RichFile.images.order("created_at DESC").where("owner_type = ? AND owner_id = ?", params[:scope_type], params[:scope_id]).page params[:page]
-        else
-          @items = RichFile.files.order("created_at DESC").where("owner_type = ? AND owner_id = ?", params[:scope_type], params[:scope_id]).page params[:page]
-        end
+      if(@type == "image")
+        @items = RichFile.images.order("created_at DESC").where(:owner_type => params[:scope_type], :owner_id => params[:scope_id]).page params[:page]
       else
-        if(@type == "image")
-          @items = RichFile.images.order("created_at DESC").page params[:page]
-        else
-          @items = RichFile.files.order("created_at DESC").page params[:page]
-        end
+        @items = RichFile.files.order("created_at DESC").where(:owner_type => params[:scope_type],  :owner_id => params[:scope_id]).page params[:page]
       end
 
       # stub for new file
