@@ -13,7 +13,8 @@ module Rich
     has_attached_file :rich_file,
                       :styles => Proc.new {|a| a.instance.set_styles },
                       :convert_options => Proc.new { |a| Rich.convert_options[a] },
-                      :restricted_characters => /[&$+,\/:;=?@<>\[\]\{\}\|\\\^~#]/
+                      :restricted_characters => /[&$+,\/:;=?@<>\[\]\{\}\|\\\^~#]/,
+                      :validate_media_type => false
     if self.respond_to?(:do_not_validate_attachment_file_type)
       do_not_validate_attachment_file_type :rich_file
     end
