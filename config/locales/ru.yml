@@ -9,9 +9,16 @@ ru:
   view_grid_tip: "Таблица"
   view_list: "Список"
   view_list_tip: "Список"
+  sort_by_date: "Sort by date, newest first"
+  sort_by_date_tip: "Sort by date, newest first"
+  sort_alphabetically: "Sort alphabetically"
+  sort_alphabetically_tip: "Sort alphabetically"
   delete: "Удалить"
   delete_confirm: "Вы уверены, что хотите удалить этот файл?"
   picker_browse: "Выберите файл"
+  search_bar_placeholder: "Search by file name"
+  filename_update_hover_hint: "Click to modify the file name"
+  filename_update_input_placeholder: "Name w/o extension"
   errors:
     messages:
       wrong_size: "не верный размер файла (должен быть %{file_size})"

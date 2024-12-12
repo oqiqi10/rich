@@ -9,6 +9,19 @@ sv:
   view_grid_tip: "Visa som rutnät"
   view_list: "Visa som lista"
   view_list_tip: "Visa som lista"
+  sort_by_date: "Sort by date, newest first"
+  sort_by_date_tip: "Sort by date, newest first"
+  sort_alphabetically: "Sort alphabetically"
+  sort_alphabetically_tip: "Sort alphabetically"
   delete: "Radera den här filen"
   delete_confirm: "Är du säker på att du vill radera den här filen?"
   picker_browse: "Välj eller ladda upp"
+  search_bar_placeholder: "Search by file name"
+  filename_update_hover_hint: "Click to modify the file name"
+  filename_update_input_placeholder: "Name w/o extension"
+  errors:
+    messages:
+      wrong_size: "is the wrong size (should be %{file_size})"
+      size_too_small: "is too small (should be at least %{file_size})"
+      size_too_big: "is too big (should be at most %{file_size})"
+      

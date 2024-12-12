@@ -2,18 +2,30 @@ module Rich
   class FilesController < ApplicationController
 
     before_action :authenticate_rich_user
-    before_action :set_rich_file, only: [:show, :destroy]
+    before_action :set_rich_file, only: [:show, :update, :destroy]
 
     layout "rich/application"
 
     def index
       @type = params[:type]
 
-      if(@type == "image")
-        @items = RichFile.images.order("created_at DESC").where(:owner_type => params[:scope_type], :owner_id => params[:scope_id]).page params[:page]
-      else
-        @items = RichFile.files.order("created_at DESC").where(:owner_type => params[:scope_type],  :owner_id => params[:scope_id]).page params[:page]
+      @items = @type == "image" ? RichFile.images : RichFile.files
+
+      if params[:scoped] == 'true'
+        @items = @items.where("owner_type = ? AND owner_id = ?", params[:scope_type], params[:scope_id])
       end
+
+      if params[:search].present?
+        @items = @items.where('rich_file_file_name LIKE ?', "%#{params[:search]}%")
+      end
+
+      if params[:alpha].present?
+        @items = @items.order("rich_file_file_name ASC")
+      else
+        @items = @items.order("created_at DESC")
+      end
+
+      @items = @items.page params[:page]
 
       # stub for new file
       @rich_asset = RichFile.new
@@ -64,6 +76,16 @@ module Rich
       end
 
       render :json => response, :content_type => "text/html"
+    end
+
+    def update
+      new_filename_without_extension = params[:filename].parameterize
+      if new_filename_without_extension.present?
+        new_filename = @rich_file.rename!(new_filename_without_extension)
+        render :json => { :success => true, :filename => new_filename, :uris => @rich_file.uri_cache }
+      else
+        render :nothing => true, :status => 500
+      end
     end
 
     def destroy
